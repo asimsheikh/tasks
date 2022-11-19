@@ -11,9 +11,10 @@
 <body class="">
     <div class='container bg-green-200 m-2 flex flex-col justify-center items-center'>
         <div class='form bg-red-100'>
-            <form action="/tasks" method="post">
+            <form action="/api" method="post">
                 <p>
                     <input class="p-2 border-2" type="text" id="task_name" name="task_name" required>
+                    <input type="hidden" id="action" name="action" value="add_task">
                 </p>
                 <p>
                     <button class="w-full my-2 px-4 py-2 bg-blue-400" type="submit">Add Task</button>
