@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form {
+        padding: 10px;
+    }
+
+    th {
+        text-align: left
+    }
+
+    .task-list {
+        padding: 10px;
+    }
+</style>
+
+<body>
+    <div class='container' style="display: flex ; width: 50%">
+        <div class='form'>
+            <form action="/tasks" method="post">
+                <p>
+                    <input type="text" id="task_name" name="task_name" required>
+                </p>
+                <p>
+                    <button type="submit">Add Task</button>
+                </p>
+            </form>
+        </div>
+
+        <br />
+        <div class="task-list">
+            <table>
+                <tr>
+                    <th>name</th>
+                    <th>status</th>
+                </tr>
+                {% for task in tasks %}
+                {% set task = task[0] %}
+                <tr>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.completed }}</td>
+                    <td>{{ task.pomodoros }}</td>
+                    <td><a href="/tasks/{{ task.id }}">edit</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
