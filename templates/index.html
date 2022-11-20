@@ -23,13 +23,14 @@
         </div>
 
         <br />
+        <!-- <p>{{ data | tojson }}</p> -->
         <div class="task-list">
             <table>
                 <tr>
                     <th>name</th>
                     <th>status</th>
                 </tr>
-                {% for task in tasks %}
+                {% for task in data.tasks %}
                 <p>{{ task | tojson }}</p>
                 <tr>
                     <td>{{ task.name }}</td>

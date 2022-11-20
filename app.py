@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     if db.get_all().get('tasks'):
-        return render_template('index.html', tasks=db.get('tasks'))
+        return render_template('index.html', data={'tasks': db.get('tasks')})
     else:
         return render_template('index.html')
 
