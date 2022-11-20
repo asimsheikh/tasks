@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect
+from typing import List
+from flask import Flask, render_template, request, redirect, jsonify
 
 from persist import Persist
 from models import Task 
@@ -20,3 +21,13 @@ def api():
         db.add(key='tasks', data=task.dict())
         return redirect('/')
     return 'api route'
+
+@app.route('/tasks/<task_id>')
+def edit_tasks(task_id: str):
+    tasks: List[Task] = [ Task(**task) for task in db.get('tasks') if task.get('id') == task_id ]
+    task = tasks[0]
+    if task:
+        return jsonify(task.dict())
+    else:
+        return jsonify({"ok": False, "error": 'could not find task'})
+
