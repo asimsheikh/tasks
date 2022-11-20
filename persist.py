@@ -24,6 +24,15 @@ class Persist:
             self.data[key] = [data]
         self._save()
 
+    def update(self, key: str, item_id: str, data: dict):
+        """TODO: need to generalise the update logic in the future"""
+        index = [ idx for idx, item in enumerate(self.data.get(key)) 
+                      if item.get('id') == item_id ]
+        if index:
+            self.data.get(key)[index[0]] = data
+        else:
+            pass 
+
     def get(self, key: str):
         return self.data[key]
 

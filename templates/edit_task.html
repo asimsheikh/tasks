@@ -12,10 +12,10 @@
 {% set task = data.task %}
 
 <body class="">
-    <div class='container bg-green-200 m-2 flex flex-col justify-center items-center'>
+    <div class='container bg-green-200 m-2 flex flex-col row justify-center items-center'>
         <div class='form bg-red-100'>
             <form action="/api" method="post">
-                <p>
+                <p class="flex flex-col">
                     <input class="p-2 border-2" type="text" id="task_name" name="task_name" value="{{ task.name }}"
                         required>
                     <input class=" p-2 border-2" type="text" id="task_completed" name="task_completed"

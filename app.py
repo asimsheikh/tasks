@@ -25,6 +25,12 @@ def api():
         elif request.form['action'] == 'save_task':
             print(request.form)
             print('in the save task segment')
+            task_id = request.form.get('id')
+            name = request.form.get('task_name')
+            completed = request.form.get('task_completed')
+            pomodoros = request.form.get('task_pomodoros')
+            data = Task(id=task_id, name=name, completed=bool(completed),pomodoros=int(pomodoros))
+            db.update(key='tasks', item_id=task_id, data=data.dict())
             return redirect('/')
     return 'api route'
 
