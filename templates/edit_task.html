@@ -22,6 +22,7 @@
                         value="{{ task.completed }}" required>
                     <input class="p-2 border-2" type="text" id="task_pomodoros" name="task_pomodoros"
                         value="{{ task.pomodoros }}" required>
+                    <input type="hidden" id="id" name="id" value="{{task.id}}">
                     <input type="hidden" id="action" name="action" value="save_task">
                 </p>
                 <p>

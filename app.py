@@ -17,9 +17,15 @@ def index():
 @app.route('/api', methods=['POST'])
 def api():
     if request.method == 'POST':
-        task = Task(name=request.form.get('task_name'))
-        db.add(key='tasks', data=task.dict())
-        return redirect('/')
+        print(request.form)
+        if request.form['action'] == 'add_task':
+            task = Task(name=request.form.get('task_name'))
+            db.add(key='tasks', data=task.dict())
+            return redirect('/')
+        elif request.form['action'] == 'save_task':
+            print(request.form)
+            print('in the save task segment')
+            return redirect('/')
     return 'api route'
 
 @app.route('/tasks/<task_id>')
