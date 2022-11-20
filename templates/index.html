@@ -9,11 +9,11 @@
 </head>
 
 <body class="">
-    <div class='container bg-green-200 m-2 flex flex-col justify-center items-center'>
-        <div class='form bg-red-100'>
+    <div class='container m-2 flex flex-col justify-center items-center'>
+        <div class='form w-1/3'>
             <form action="/api" method="post">
                 <p>
-                    <input class="p-2 border-2" type="text" id="task_name" name="task_name" required>
+                    <input class="p-2 w-full border-2" type="text" id="task_name" name="task_name" required>
                     <input type="hidden" id="action" name="action" value="add_task">
                 </p>
                 <p>
@@ -36,7 +36,7 @@
                     <td>{{ task.name }}</td>
                     <td>{{ task.completed }}</td>
                     <td>{{ task.pomodoros }}</td>
-                    <td><a href="/tasks/{{ task.id }}">edit</a></td>
+                    <td class="px-4 border-2 bg-blue-400"><a href="/tasks/{{ task.id }}">edit</a></td>
                 </tr>
                 {% endfor %}
             </table>
