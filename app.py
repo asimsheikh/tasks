@@ -26,6 +26,8 @@ def api():
             task = to_task(request.form)
             db.update(key='tasks', item_id=task.id, data=task.dict())
             return redirect('/')
+        elif request.form['action'] == 'add_notes':
+            raise NotImplementedError 
     return 'api route'
 
 @app.route('/tasks/<task_id>')
@@ -35,6 +37,17 @@ def edit_tasks(task_id: str):
     if task:
         print(jsonify(task))
         return render_template('edit_task.html', data={'task': task})
+
+    else:
+        return jsonify({"ok": False, "error": 'could not find task'})
+
+@app.route('/notes/<task_id>')
+def edit_notes(task_id: str):
+    tasks: List[dict[str, Any]] = [ task for task in db.get('tasks') if task.get('id') == task_id ]
+    task = tasks[0]
+    if task:
+        print(jsonify(task))
+        return render_template('edit_notes.html', data={'task': task})
 
     else:
         return jsonify({"ok": False, "error": 'could not find task'})
