@@ -30,8 +30,6 @@ class Persist:
                       if item.get('id') == item_id ]
         if index:
             self.data.get(key)[index[0]] = data
-        else:
-            pass 
 
     def get(self, key: str):
         return self.data[key]
