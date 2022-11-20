@@ -11,7 +11,7 @@ def index():
     if db.get_all().get('tasks'):
         return render_template('index.html', data={'tasks': db.get('tasks')})
     else:
-        return render_template('index.html')
+        return render_template('index.html', data={'tasks': []})
 
 @app.route('/api', methods=['POST'])
 def api():
