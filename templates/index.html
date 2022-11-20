@@ -30,7 +30,7 @@
                     <th>status</th>
                 </tr>
                 {% for task in tasks %}
-                {% set task = task[0] %}
+                <p>{{ task | tojson }}</p>
                 <tr>
                     <td>{{ task.name }}</td>
                     <td>{{ task.completed }}</td>

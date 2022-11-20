@@ -1,23 +1,22 @@
-from uuid import uuid4
-from typing import Optional
+from flask import Flask, render_template, request, redirect
 
-from pydantic import BaseModel
-from flask import Flask, render_template, request, jsonify
+from persist import Persist
+from models import Task 
 
-class Task(BaseModel):
-    id: Optional[str] = uuid4().hex
-    name: str 
-    completed: bool
-    pomodoros: int
-
+db = Persist()
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if db.get_all().get('tasks'):
+        return render_template('index.html', tasks=db.get('tasks'))
+    else:
+        return render_template('index.html')
 
 @app.route('/api', methods=['POST'])
 def api():
     if request.method == 'POST':
-        return jsonify(request.form) 
+        task = Task(name=request.form.get('task_name'))
+        db.add(key='tasks', data=task.dict())
+        return redirect('/')
     return 'api route'
