@@ -18,7 +18,6 @@ def index():
 @app.route('/api', methods=['POST'])
 def api():
     if request.method == 'POST':
-        print(request.form)
         if request.form['action'] == 'add_task':
             task = Task(name=request.form.get('task_name'))
             db.add(key='tasks', data=task.dict())
