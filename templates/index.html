@@ -17,7 +17,9 @@
                     <input type="hidden" id="action" name="action" value="add_task">
                 </p>
                 <p>
-                    <button class="w-full my-2 px-4 py-2 bg-blue-400" type="submit">Add Task</button>
+                    <button class="w-full font-bold text-white my-2 px-4 py-2 bg-sky-400 hover:bg-sky-500"
+                        type="submit">Add
+                        Task</button>
                 </p>
             </form>
         </div>
@@ -36,7 +38,8 @@
                     <td>{{ task.name }}</td>
                     <td>{{ task.completed }}</td>
                     <td>{{ task.pomodoros }}</td>
-                    <td class="px-4 border-2 bg-blue-400"><a href="/tasks/{{ task.id }}">edit</a></td>
+                    <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500"><a
+                            href="/tasks/{{ task.id }}">edit</a></td>
                 </tr>
                 {% endfor %}
             </table>

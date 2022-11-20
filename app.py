@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify
 
 from persist import Persist
 from models import Task 
+from serialize import to_task
 
 db = Persist()
 app = Flask(__name__)
@@ -23,14 +24,8 @@ def api():
             db.add(key='tasks', data=task.dict())
             return redirect('/')
         elif request.form['action'] == 'save_task':
-            print(request.form)
-            print('in the save task segment')
-            task_id = request.form.get('id')
-            name = request.form.get('task_name')
-            completed = request.form.get('task_completed')
-            pomodoros = request.form.get('task_pomodoros')
-            data = Task(id=task_id, name=name, completed=bool(completed),pomodoros=int(pomodoros))
-            db.update(key='tasks', item_id=task_id, data=data.dict())
+            task = to_task(request.form)
+            db.update(key='tasks', item_id=task.id, data=task.dict())
             return redirect('/')
     return 'api route'
 
