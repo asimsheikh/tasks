@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
+{{ data | tojson }}
 {% set task = data.task %}
 
 <body class="">
@@ -15,37 +16,21 @@
         <div class='form bg-red-100'>
             <form action="/api" method="post">
                 <p>
-                    <input class="p-2 border-2" type="text" id="task_name" name="task_name" value={{ task.name }}
+                    <input class="p-2 border-2" type="text" id="task_name" name="task_name" value="{{ task.name }}"
                         required>
-                    <input class="p-2 border-2" type="text" id="task_completed" name="task_completed" value={{
-                        task.completed }} required>
-                    <input class="p-2 border-2" type="text" id="task_pomodoros" name="task_pomodoros" value={{
-                        task.pomodoros }} required>
-                    <input type="hidden" id="action" name="action" value="edit_task">
+                    <input class=" p-2 border-2" type="text" id="task_completed" name="task_completed"
+                        value="{{ task.completed }}" required>
+                    <input class="p-2 border-2" type="text" id="task_pomodoros" name="task_pomodoros"
+                        value="{{ task.pomodoros }}" required>
+                    <input type="hidden" id="action" name="action" value="save_task">
                 </p>
                 <p>
-                    <button class="w-full my-2 px-4 py-2 bg-blue-400" type="submit">Edit Task</button>
+                    <button class="w-full my-2 px-4 py-2 bg-blue-400" type="submit">Save Task</button>
                 </p>
             </form>
         </div>
 
         <br />
-        <!-- <p>{{ data | tojson }}</p> -->
-        <div class="task-list">
-            <table>
-                <tr>
-                    <th>name</th>
-                    <th>status</th>
-                </tr>
-                <p>{{ task | tojson }}</p>
-                <tr>
-                    <td>{{ task.name }}</td>
-                    <td>{{ task.completed }}</td>
-                    <td>{{ task.pomodoros }}</td>
-                    <td><a href="/tasks/{{ task.id }}">edit</a></td>
-                </tr>
-            </table>
-        </div>
     </div>
 </body>
 
