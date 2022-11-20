@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+{{ data | tojson }}
+{% set task = data.task %}
+
+<body class="">
+    <div class='container bg-green-200 m-2 flex flex-col row justify-center items-center'>
+        <div class='form bg-red-100'>
+            <form action="/api" method="post">
+                <p class="flex flex-col">
+                    <input class="p-2 border-2" type="text" id="task_name" name="task_name" value="{{ task.name }}"
+                        required>
+                    <input class=" p-2 border-2" type="text" id="task_completed" name="task_completed"
+                        value="{{ task.completed }}" required>
+                    <input class="p-2 border-2" type="text" id="task_pomodoros" name="task_pomodoros"
+                        value="{{ task.pomodoros }}" required>
+                    <input type="hidden" id="id" name="id" value="{{task.id}}">
+                    <input type="hidden" id="action" name="action" value="save_task">
+                </p>
+                <p>
+                    <button class="w-full my-2 px-4 py-2 bg-blue-400" type="submit">Save Task</button>
+                </p>
+            </form>
+        </div>
+
+        <br />
+    </div>
+    <div class="task-list">
+        <table>
+            <tr>
+                <th>name</th>
+                <th>status</th>
+            </tr>
+            <tr>
+                <td>{{ task.name }}</td>
+                <td>{{ task.completed }}</td>
+                <td>{{ task.pomodoros }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
