@@ -50,11 +50,11 @@ def edit_tasks(task_id: str):
 @app.route('/notes/<task_id>')
 def edit_notes(task_id: str):
     tasks: List[dict[str, Any]] = [ task for task in db.get('tasks') if task.get('id') == task_id ]
+    notes: List[dict[str, Any]] = [ note for note in db.get('notes') if note.get('task_id') == task_id ]
+    print(notes)
     task = tasks[0]
     if task:
-        print(jsonify(task))
-        return render_template('edit_notes.html', data={'task': task})
-
+        return render_template('edit_notes.html', data={'task': task, 'notes': notes})
     else:
         return jsonify({"ok": False, "error": 'could not find task'})
 

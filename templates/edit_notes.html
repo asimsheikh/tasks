@@ -11,7 +11,8 @@
 {{ data | tojson }}
 {% set task = data.task %}
 
-<body class="">
+<body>
+    <p>{{ task.name }} {{ task.completed }} {{ task.pomodoros }}</p>
     <div class='container bg-green-200 m-2 flex flex-col row justify-center items-center'>
         <div class='form bg-red-100'>
             <form action="/api" method="post">
@@ -30,19 +31,23 @@
         </div>
 
         <br />
-    </div>
-    <div class="task-list">
-        <table>
-            <tr>
-                <th>name</th>
-                <th>status</th>
-            </tr>
-            <tr>
-                <td>{{ task.name }}</td>
-                <td>{{ task.completed }}</td>
-                <td>{{ task.pomodoros }}</td>
-            </tr>
-        </table>
+
+        <div class="notes-list">
+            <table>
+                <tr>
+                    <th>date</th>
+                    <th>text</th>
+                </tr>
+                {% for note in data.notes %}
+                <!-- <p>{{ note | tojson }}</p> -->
+                <tr>
+                    <td>{{ note.date }}</td>
+                    <td>{{ note.text }}</td>
+                    <td><a href="/notes/{{ task.id }}">edit</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 </body>
 
