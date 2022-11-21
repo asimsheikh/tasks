@@ -2,7 +2,7 @@ from typing import List, Any
 from flask import Flask, render_template, request, redirect, jsonify
 
 from persist import Persist
-from models import Task 
+from models import Task, Notes
 from serialize import to_task
 
 db = Persist()
@@ -28,7 +28,11 @@ def api():
             return redirect('/')
         elif request.form['action'] == 'add_notes':
             print(request.form)
-            raise NotImplementedError 
+            date = request.form['notes_date'] # need to parse this to date object from '2022-11-21T11:07'
+            text = request.form['notes_text']
+            task_id = request.form['notes_task_id']
+            note = Notes(text=text, task_id=task_id)
+            db.add(key='notes', data=note.dict())
     return 'api route'
 
 @app.route('/tasks/<task_id>')
