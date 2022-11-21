@@ -8,12 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-{{ data | tojson }}
+<!-- {{ data | tojson }} -->
 {% set task = data.task %}
 
 <body>
-    <p>{{ task.name }} {{ task.completed }} {{ task.pomodoros }}</p>
-    <div class='container bg-green-200 m-2 flex flex-col row justify-center items-center'>
+    <div class='container m-2 flex flex-col row justify-center items-center'>
+        <p class="p-2 m-4"><a class="underline" href="/">Home</a></p>
+        <p class="p-2 m-4"> Task - {{ task.name }} {{ task.completed }} {{ task.pomodoros }}</p>
         <div class='form bg-red-100'>
             <form action="/api" method="post">
                 <p class="flex flex-col">

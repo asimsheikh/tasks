@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, jsonify
 
 from persist import Persist
 from models import Task, Notes
-from serialize import to_task
+from serialize import to_task, to_note
 
 db = Persist()
 app = Flask(__name__)
@@ -27,11 +27,7 @@ def api():
             db.update(key='tasks', item_id=task.id, data=task.dict())
             return redirect('/')
         elif request.form['action'] == 'add_notes':
-            print(request.form)
-            date = request.form['notes_date'] # need to parse this to date object from '2022-11-21T11:07'
-            text = request.form['notes_text']
-            task_id = request.form['notes_task_id']
-            note = Notes(date=date, text=text, task_id=task_id)
+            note = to_note(request.form)
             db.add(key='notes', data=note.dict())
             return redirect('/')
     return 'api route'
