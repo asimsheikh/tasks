@@ -12,6 +12,6 @@ class Task(BaseModel):
 
 class Notes(BaseModel):
     id: str = Field(default_factory=lambda: uuid4().hex)
-    date: datetime = Field(default_factory=datetime.now)
+    date: str
     text: str
     task_id: str 

@@ -31,8 +31,9 @@ def api():
             date = request.form['notes_date'] # need to parse this to date object from '2022-11-21T11:07'
             text = request.form['notes_text']
             task_id = request.form['notes_task_id']
-            note = Notes(text=text, task_id=task_id)
+            note = Notes(date=date, text=text, task_id=task_id)
             db.add(key='notes', data=note.dict())
+            return redirect('/')
     return 'api route'
 
 @app.route('/tasks/<task_id>')
