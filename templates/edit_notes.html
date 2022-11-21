@@ -16,14 +16,12 @@
         <div class='form bg-red-100'>
             <form action="/api" method="post">
                 <p class="flex flex-col">
-                    <input class="p-2 border-2" type="text" id="task_name" name="task_name" value="{{ task.name }}"
+                    <input class="p-2 border-2" type="datetime-local" id="notes_date" name="notes_date" value=""
                         required>
-                    <input class=" p-2 border-2" type="text" id="task_completed" name="task_completed"
-                        value="{{ task.completed }}" required>
-                    <input class="p-2 border-2" type="text" id="task_pomodoros" name="task_pomodoros"
-                        value="{{ task.pomodoros }}" required>
-                    <input type="hidden" id="id" name="id" value="{{task.id}}">
-                    <input type="hidden" id="action" name="action" value="save_task">
+                    <input class=" p-2 border-2" type="text" id="notes_text" name="notes_text" value="" required>
+                    <input class="p-2 border-2" type="text" id="notes_task_id" name="notes_task_id"
+                        value="{{ task.id }}" required>
+                    <input type="hidden" id="action" name="action" value="add_notes">
                 </p>
                 <p>
                     <button class="w-full my-2 px-4 py-2 bg-blue-400" type="submit">Save Task</button>

@@ -27,6 +27,7 @@ def api():
             db.update(key='tasks', item_id=task.id, data=task.dict())
             return redirect('/')
         elif request.form['action'] == 'add_notes':
+            print(request.form)
             raise NotImplementedError 
     return 'api route'
 
