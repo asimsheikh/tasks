@@ -29,7 +29,7 @@ def api():
         elif request.form['action'] == 'add_notes':
             note = to_note(request.form)
             db.add(key='notes', data=note.dict())
-            return redirect('/')
+            return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
 
 @app.route('/tasks/<task_id>')
