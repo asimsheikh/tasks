@@ -5,7 +5,7 @@ def to_task(form_data: dict[str,str]) -> Task:
     name = form_data.get('task_name')
     completed = form_data.get('task_completed')
     pomodoros = form_data.get('task_pomodoros')
-    return Task(id=_id, name=name, completed=bool(completed), pomodoros=int(pomodoros))
+    return Task(id=_id, name=name, completed=completed == 'True', pomodoros=int(pomodoros))
 
 def to_note(form_data: dict[str, str]) -> Notes:
     _id = form_data.get('id')
