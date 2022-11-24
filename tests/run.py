@@ -11,6 +11,7 @@ def run(playwright: Playwright) -> None:
         page.get_by_test_id('task').fill(f'Entering task number #{random.randint(1,100)}')
         page.get_by_role("button", name="Add Task").click()
 
+    expect(page.locator('tr:has-text("Entering task number #28")')).to_be_visible()
     # ---------------------
     page.wait_for_timeout(5000) 
     context.close()
