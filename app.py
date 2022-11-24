@@ -8,6 +8,11 @@ from serialize import to_task, to_note
 db = Persist()
 app = Flask(__name__)
 
+@app.route('/clear')
+def temp_clear():
+    db.clear()
+    return 'Cleared'
+
 @app.route('/')
 def index():
     if db.get_all().get('tasks'):

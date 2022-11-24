@@ -27,6 +27,17 @@ def test_can_enter_task(page: Page):
         page.get_by_test_id('task').fill(f'Entering task number #{x}')
         page.get_by_role("button", name="Add Task").click()
 
-    # expect(page.locator('tr:has-text("Enter task number #1')).to_have_text('Enter task number #1')
-    expect(page.locator('td:has-text("Entering task number #0")')).to_contain_text('Entering task number #0')
+    page.get_by_role('row', name='Entering task number #0').get_by_role('link', name='edit notes').click()
+    page.locator('#notes_date').fill('2022-11-11T01:43')
+    page.locator('#notes_text').fill('The note for a task')
+    page.get_by_role('button', name='Save Note').click()
+
+    expect(page.locator('.notes-list')).to_contain_text('The note for a task') 
+
+@pytest.mark.only_browser("chromium")
+def test_clear_pages(page: Page):
+    page.goto('http://127.0.0.1:5000/clear')
+    expect(page.locator('body')).to_have_text('Cleared')
+
+
     
