@@ -59,3 +59,8 @@ def edit_notes(task_id: str):
     else:
         return jsonify({"ok": False, "error": 'could not find task'})
 
+@app.route('/tasks/delete/<task_id>')
+def delete_task(task_id: str):
+    print(task_id)
+    db.delete(key='tasks', item_id=task_id)
+    return redirect('/')

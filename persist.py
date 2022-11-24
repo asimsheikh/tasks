@@ -32,6 +32,13 @@ class Persist:
             self.data.get(key)[index[0]] = data
         self._save()
 
+    def delete(self, key: str, item_id: str):
+        index = [ idx for idx, item in enumerate(self.data.get(key)) 
+                      if item.get('id') == item_id ]
+        if index:
+            self.data.get(key).pop(index[0])
+            self._save()
+
     def get(self, key: str):
         return self.data[key] if self.data.get(key) else self.data.setdefault(key, [])
 

@@ -20,8 +20,8 @@ def test_can_add_a_new_task(page: Page):
 
     expect(page.locator('.task-list')).to_contain_text(f'item {rand_int}')
 
-# @pytest.mark.only_browser("chromium")
-@pytest.mark.skip
+@pytest.mark.only_browser("chromium")
+# @pytest.mark.skip
 def test_can_enter_task(page: Page):
     page.goto("http://127.0.0.1:5000/")
     for x in range(10):
