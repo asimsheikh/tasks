@@ -20,7 +20,8 @@ def test_can_add_a_new_task(page: Page):
 
     expect(page.locator('.task-list')).to_contain_text(f'item {rand_int}')
 
-@pytest.mark.only_browser("chromium")
+# @pytest.mark.only_browser("chromium")
+@pytest.mark.skip
 def test_can_enter_task(page: Page):
     page.goto("http://127.0.0.1:5000/")
     for x in range(10):
@@ -34,10 +35,18 @@ def test_can_enter_task(page: Page):
 
     expect(page.locator('.notes-list')).to_contain_text('The note for a task') 
 
-@pytest.mark.only_browser("chromium")
+# @pytest.mark.only_browser("chromium")
+@pytest.mark.skip
 def test_clear_pages(page: Page):
     page.goto('http://127.0.0.1:5000/clear')
     expect(page.locator('body')).to_have_text('Cleared')
 
+
+@pytest.mark.only_browser("chromium")
+def test_can_delete_note(page: Page):
+    page.goto("http://127.0.0.1:5000/")
+    page.get_by_role('row', name='Entering task number #0').get_by_role('link', name='delete task').click()
+    # how do we check that item has been removed from the list
+    expect(page.locator('.task-list')).not_to_contain_text('Entering task number #0')
 
     

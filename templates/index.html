@@ -19,8 +19,7 @@
                 </p>
                 <p>
                     <button class="w-full font-bold text-white my-2 px-4 py-2 bg-sky-400 hover:bg-sky-500" type="submit"
-                        data-testid="enter_task">Add
-                        Task</button>
+                        data-testid="enter_task">Add Task</button>
                 </p>
             </form>
         </div>
@@ -41,6 +40,9 @@
                     <td>{{ task.pomodoros }}</td>
                     <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500">
                         <a href="/tasks/{{ task.id }}">edit task</a>
+                    </td>
+                    <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500">
+                        <a href="/tasks/{{ task.id }}">delete task</a>
                     </td>
                     <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500">
                         <a href="/notes/{{ task.id }}">edit notes</a>
