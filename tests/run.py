@@ -7,15 +7,15 @@ def run(playwright: Playwright) -> None:
     context = browser.new_context()
     page = context.new_page()
     page.goto("http://127.0.0.1:5000/")
-    for _ in range(20):
-        page.get_by_test_id('task').fill(f'Entering task number #{random.randint(1,100)}')
+    for x in range(10):
+        page.get_by_test_id('task').fill(f'Entering task number #{x}')
         page.get_by_role("button", name="Add Task").click()
 
-    expect(page.locator('tr:has-text("Entering task number #28")')).to_be_visible()
+    # expect(page.locator('tr:has-text("Entering task number #0")')).to_be_visible()
     # ---------------------
-    page.wait_for_timeout(5000) 
-    context.close()
-    browser.close()
+    # page.wait_for_timeout(5000) 
+    # context.close()
+    # browser.close()
 
 
 with sync_playwright() as playwright:
