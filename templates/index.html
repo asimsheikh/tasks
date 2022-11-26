@@ -8,17 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="">
-    <div class='container m-2 flex flex-col justify-center items-center'>
+<body class="bg-neutral-900 text-neutral-100">
+    <div class='cm-2 flex flex-col items-center pt-2'>
         <div class='form w-1/3'>
             <form action="/api" method="post">
                 <p>
-                    <input class="p-2 w-full border-2" type="text" id="task_name" name="task_name" data-testid="task"
-                        required>
+                    <input class="p-2 w-full border-2 text-black rounded-md" type="text" id="task_name" name="task_name"
+                        data-testid="task" required>
                     <input type="hidden" id="action" name="action" value="add_task">
                 </p>
                 <p>
-                    <button class="w-full font-bold text-white my-2 px-4 py-2 bg-sky-400 hover:bg-sky-500" type="submit"
+                    <button class="rounded-md mt-2 border-2 w-full border-zinc-800 p-2 focus:outline-none" type="submit"
                         data-testid="enter_task">Add Task</button>
                 </p>
             </form>
@@ -29,23 +29,26 @@
         <div class="task-list">
             <table>
                 <tr>
-                    <th>name</th>
-                    <th>status</th>
+                    <th class="text-left">Task Name</th>
+                    <th class="text-left">Status</th>
                 </tr>
                 {% for task in data.tasks %}
                 <!-- <p>{{ task | tojson }}</p> -->
                 <tr>
-                    <td>{{ task.name }}</td>
-                    <td>{{ task.completed }}</td>
-                    <td>{{ task.pomodoros }}</td>
-                    <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500">
-                        <a href="/tasks/{{ task.id }}">edit task</a>
+                    <td class="pr-2">{{ task.name }}</td>
+                    <td class="pr-2">{{ task.completed }}</td>
+                    <td class="pr-2">{{ task.pomodoros }}</td>
+                    <td class="p-2">
+                        <a class="rounded-md mt-2 border-2 border-zinc-800 p-2 focus:outline-none"
+                            href="/tasks/{{ task.id }}">edit task</a>
                     </td>
-                    <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500">
-                        <a href="/tasks/delete/{{ task.id }}">delete task</a>
+                    <td class="py-2">
+                        <a class="rounded-md mt-2 border-2 border-zinc-800 p-2 focus:outline-none"
+                            href="/tasks/delete/{{ task.id }}">delete task</a>
                     </td>
-                    <td class="px-4 border-2 text-white bg-sky-400 hover:bg-sky-500">
-                        <a href="/notes/{{ task.id }}">edit notes</a>
+                    <td class="py-2">
+                        <a class="rounded-md mt-2 border-2 border-zinc-800 p-2 focus:outline-none"
+                            href="/notes/{{ task.id }}">edit notes</a>
                     </td>
                 </tr>
                 {% endfor %}

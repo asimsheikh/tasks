@@ -40,7 +40,7 @@ class Persist:
             self._save()
 
     def get(self, key: str):
-        return self.data[key] if self.data.get(key) else self.data.setdefault(key, [])
+        return self.data.setdefault(key, [])
 
     def get_all(self):
         return self.data
