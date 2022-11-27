@@ -11,7 +11,7 @@
 
 <body class="bg-neutral-900 text-gray-600">
     <div>
-        <p class="p-5 text-gray-200">
+        <p class="p-5 text-gray-200 text-center">
             {{ data | tojson }}
             {% set task = data.task %}
         </p>
@@ -19,21 +19,21 @@
     <div class='container m-2 flex flex-col row justify-center items-center'>
         <div class='form'>
             <form action="/api" method="post">
-                <p class="flex flex-col">
+                <div class="flex flex-col">
                     <input class="p-2 my-2 border-2" type="text" id="task_name" name="task_name" value="{{ task.name }}"
                         required>
-                    <input class=" p-2 my-2 border-2" type="text" id="task_completed" name="task_completed"
-                        value="{{ task.completed }}" required>
+                    <select class="p-2 my-2 border-2" name="task_completed" id="task_completed">
+                        <option value="True" {{ 'selected' if task.completed==True }}>True</option>
+                        <option value="False" {{ 'selected' if task.completed==False}}>False</option>
+                    </select>
                     <input class="p-2 my-2 border-2" type="text" id="task_pomodoros" name="task_pomodoros"
                         value="{{ task.pomodoros }}" required>
                     <input type="hidden" id="id" name="id" value="{{task.id}}">
                     <input type="hidden" id="action" name="action" value="save_task">
-                </p>
-                <p>
                     <button
                         class="rounded-md mt-2 bg-white text-gray-900 border-2 w-full border-zinc-800 p-2 focus:outline-none"
                         type="submit">Save Task</button>
-                </p>
+                </div>
             </form>
         </div>
 

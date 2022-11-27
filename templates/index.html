@@ -18,7 +18,7 @@
                     <input type="hidden" id="action" name="action" value="add_task">
                 </p>
                 <p>
-                    <button class="rounded-md mt-2 border-2 w-full border-zinc-800 p-2 focus:outline-none" type="submit"
+                    <button class="rounded-md mt-2 border-2 w-full border-zinc-700 p-2 focus:outline-none" type="submit"
                         data-testid="enter_task">Add Task</button>
                 </p>
             </form>
@@ -31,24 +31,24 @@
                 <tr>
                     <th class="text-left">Task Name</th>
                     <th class="text-left">Status</th>
-                    <th class="text-left">Pebbles</th>
+                    <th class="px-2 text-left">Pebbles</th>
                 </tr>
                 {% for task in data.tasks %}
                 <!-- <p>{{ task | tojson }}</p> -->
                 <tr>
                     <td class="pr-2">{{ task.name }}</td>
                     <td class="pr-2">{{ task.completed }}</td>
-                    <td class="pr-2">{{ task.pomodoros }}</td>
-                    <td class="p-2">
-                        <a class="rounded-md mt-2 border-2 border-zinc-800 p-2 focus:outline-none"
+                    <td class="px-2">{{ task.pomodoros }}</td>
+                    <td class="py-2">
+                        <a class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
                             href="/tasks/{{ task.id }}">edit task</a>
                     </td>
                     <td class="py-2">
-                        <a class="rounded-md mt-2 border-2 border-zinc-800 p-2 focus:outline-none"
+                        <a class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
                             href="/tasks/delete/{{ task.id }}">delete task</a>
                     </td>
                     <td class="py-2">
-                        <a class="rounded-md mt-2 border-2 border-zinc-800 p-2 focus:outline-none"
+                        <a class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
                             href="/notes/{{ task.id }}">edit notes</a>
                     </td>
                 </tr>
