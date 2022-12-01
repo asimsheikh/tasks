@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+
+<body class="bg-neutral-900 text-gray-600">
+    <div>
+        <p class="p-5 text-gray-200 text-center">
+            {{ data | tojson }}
+            {% set note = data.note %}
+        </p>
+    </div>
+    <div class='container m-2 flex flex-col row justify-center items-center'>
+        <div class='form'>
+            <form action="/api" method="post">
+                <div class="flex flex-col">
+                    <input class="p-2 my-2 border-2" type="text" id="note_text" name="note_text" value="{{ note.text }}"
+                        required>
+                    <input class="p-2 my-2 border-2" type="datetime-local" id="note_date" name="note_date"
+                        value="{{ note.date }}" required>
+                    <input type="hidden" id="id" name="id" value="{{note.id}}">
+                    <input type="hidden" id="action" name="action" value="save_note">
+                    <button
+                        class="rounded-md mt-2 bg-white text-gray-900 border-2 w-full border-zinc-800 p-2 focus:outline-none"
+                        type="submit">Save Task</button>
+                </div>
+            </form>
+        </div>
+
+        <br />
+    </div>
+</body>
+
+</html>

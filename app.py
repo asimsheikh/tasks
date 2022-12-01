@@ -69,7 +69,6 @@ def delete_task(task_id: str):
 def path(subpath: str):
     entity, entity_id = subpath.split('/')
     if entity == 'notes':
-        # note: Note = [ note for note in db.get('notes') if note.get('id') == entity_id ]
-        # return note[0].dict()
-        return jsonify([note for note in db.get('notes') if note.get('id') == entity_id])
+        note: dict[str, Any] = [note for note in db.get('notes') if note.get('id') == entity_id][0]
+        return render_template('edit_note.html', data={'note': note })
     return subpath 
