@@ -64,3 +64,12 @@ def delete_task(task_id: str):
     print(task_id)
     db.delete(key='tasks', item_id=task_id)
     return redirect('/')
+
+@app.route('/edit/<path:subpath>')
+def path(subpath: str):
+    entity, entity_id = subpath.split('/')
+    if entity == 'notes':
+        # note: Note = [ note for note in db.get('notes') if note.get('id') == entity_id ]
+        # return note[0].dict()
+        return jsonify([note for note in db.get('notes') if note.get('id') == entity_id])
+    return subpath 

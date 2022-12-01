@@ -44,7 +44,7 @@
                 <tr>
                     <td>{{ note.date.split('T')[0] }}</td>
                     <td>{{ note.text }}</td>
-                    <td><a href="/notes/{{ task.id }}">edit</a></td>
+                    <td><a href="/edit/notes/{{ note.id }}">edit</a></td>
                 </tr>
                 {% endfor %}
             </table>
