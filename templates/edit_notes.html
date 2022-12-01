@@ -36,13 +36,13 @@
         <div class="notes-list">
             <table>
                 <tr>
-                    <th>date</th>
-                    <th>text</th>
+                    <th class="text-left">Date</th>
+                    <th class="text-left">Note</th>
                 </tr>
                 {% for note in data.notes %}
                 <!-- <p>{{ note | tojson }}</p> -->
                 <tr>
-                    <td>{{ note.date }}</td>
+                    <td>{{ note.date.split('T')[0] }}</td>
                     <td>{{ note.text }}</td>
                     <td><a href="/notes/{{ task.id }}">edit</a></td>
                 </tr>
