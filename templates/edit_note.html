@@ -20,11 +20,12 @@
         <div class='form'>
             <form action="/api" method="post">
                 <div class="flex flex-col">
-                    <input class="p-2 my-2 border-2" type="text" id="note_text" name="note_text" value="{{ note.text }}"
-                        required>
-                    <input class="p-2 my-2 border-2" type="datetime-local" id="note_date" name="note_date"
+                    <input class="p-2 my-2 border-2" type="datetime-local" id="notes_date" name="notes_date"
                         value="{{ note.date }}" required>
+                    <input class="p-2 my-2 border-2" type="text" id="notes_text" name="notes_text"
+                        value="{{ note.text }}" required>
                     <input type="hidden" id="id" name="id" value="{{note.id}}">
+                    <input type="hidden" id="notes_task_id" name="notes_task_id" value="{{note.task_id}}">
                     <input type="hidden" id="action" name="action" value="save_note">
                     <button
                         class="rounded-md mt-2 bg-white text-gray-900 border-2 w-full border-zinc-800 p-2 focus:outline-none"

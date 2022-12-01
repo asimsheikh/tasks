@@ -2,7 +2,7 @@ from typing import List, Any
 from flask import Flask, render_template, request, redirect, jsonify
 
 from persist import Persist
-from models import Task, Notes
+from models import Task
 from serialize import to_task, to_note
 
 db = Persist()
@@ -34,6 +34,10 @@ def api():
         elif request.form['action'] == 'add_notes':
             note = to_note(request.form)
             db.add(key='notes', data=note.dict())
+            return redirect('/notes/' + request.form['notes_task_id'])
+        elif request.form['action'] == 'save_note':
+            note = to_note(request.form)
+            db.update(key='notes', item_id=note.id, data=note.dict())
             return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
 
