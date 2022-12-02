@@ -1,13 +1,16 @@
-from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from uuid import uuid4
 
 class Task(BaseModel):
-    id: str = Field(default_factory=lambda: uuid4().hex)
+    id: str | None = Field(default_factory=lambda: uuid4().hex)
     name: str 
     completed: bool = False
     pomodoros: int = 0
+    
+    @validator('id')
+    def validate_id(cls, v: str | None):
+        return uuid4().hex if not v else v
 
 
 class Notes(BaseModel):
