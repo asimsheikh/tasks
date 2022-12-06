@@ -1,5 +1,5 @@
 from typing import List, Any
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, url_for
 from jinja2 import Template
 
 from persist import Persist
@@ -81,13 +81,15 @@ def path(subpath: str):
 @app.route('/users')
 def users():
     page = '''
+    {% extends "base.html" %}
      <div>
+      <p><a href={{data.home_url}}>Home</a></p>
        <ul>
-         {% for user in users %}
+         {% for user in data.users %}
            <li>{{user}}</li>
          {% endfor %}
        </ul> 
      </div>
     '''
-    users = ['Asim Sheikh', 'Khurrum Sheikh', 'Faizan Sheikh']
-    return Template(page).render(users=users)
+    users = ['Captain America', 'Ironman', 'Thor', 'Hulk']
+    return Template(page).render(data={'users': users, 'home_url': url_for('index')})

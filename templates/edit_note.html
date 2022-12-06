@@ -12,8 +12,8 @@
 <body class="bg-neutral-900 text-gray-600">
     <div>
         <p class="p-5 text-gray-200 text-center">
-            {{ data | tojson }}
-            {% set note = data.note %}
+        <pre>{{data | pprint }}</pre>
+        {% set note = data.note %}
         </p>
     </div>
     <div class='container m-2 flex flex-col row justify-center items-center'>
