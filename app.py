@@ -1,5 +1,4 @@
-from typing import List, Any
-from flask import Flask, render_template, request, redirect, jsonify, url_for
+from flask import Flask, render_template, request, redirect, url_for, render_template_string
 from jinja2 import Template
 
 from persist import Persist
@@ -46,14 +45,17 @@ def api():
 def users():
     page = '''
     {% extends "base.html" %}
-     <div>
-      <p><a href={{data.home_url}}>Home</a></p>
-       <ul>
-         {% for user in data.users %}
-           <li>{{user}}</li>
-         {% endfor %}
-       </ul> 
-     </div>
+    {% block content %}
+        <div>
+        <p><a href={{data.home_url}}>Home</a></p>
+        <ul>
+            {% for user in data.users %}
+            <li>{{user}}</li>
+            {% endfor %}
+        </ul> 
+        </div>
+    {% endblock %}
     '''
     users = ['Captain America', 'Ironman', 'Thor', 'Hulk']
-    return Template(page).render(data={'users': users, 'home_url': url_for('index')})
+    data = {'users': users, 'home_url': url_for('index')}
+    return render_template_string(page, data=data)
