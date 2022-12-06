@@ -1,5 +1,6 @@
 from typing import List, Any
 from flask import Flask, render_template, request, redirect, jsonify
+from jinja2 import Template
 
 from persist import Persist
 from models import Task
@@ -76,3 +77,17 @@ def path(subpath: str):
         note: dict[str, Any] = [note for note in db.get('notes') if note.get('id') == entity_id][0]
         return render_template('edit_note.html', data={'note': note })
     return subpath 
+
+@app.route('/users')
+def users():
+    page = '''
+     <div>
+       <ul>
+         {% for user in users %}
+           <li>{{user}}</li>
+         {% endfor %}
+       </ul> 
+     </div>
+    '''
+    users = ['Asim Sheikh', 'Khurrum Sheikh', 'Faizan Sheikh']
+    return Template(page).render(users=users)
