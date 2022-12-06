@@ -42,42 +42,6 @@ def api():
             return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
 
-@app.route('/tasks/<task_id>')
-def edit_tasks(task_id: str):
-    tasks: List[dict[str, Any]] = [ task for task in db.get('tasks') if task.get('id') == task_id ]
-    task = tasks[0]
-    if task:
-        print(jsonify(task))
-        return render_template('edit_task.html', data={'task': task})
-
-    else:
-        return jsonify({"ok": False, "error": 'could not find task'})
-
-@app.route('/notes/<task_id>')
-def edit_notes(task_id: str):
-    tasks: List[dict[str, Any]] = [ task for task in db.get('tasks') if task.get('id') == task_id ]
-    notes: List[dict[str, Any]] = [ note for note in db.get('notes') if note.get('task_id') == task_id ]
-    print(notes)
-    task = tasks[0]
-    if task:
-        return render_template('edit_notes.html', data={'task': task, 'notes': notes})
-    else:
-        return jsonify({"ok": False, "error": 'could not find task'})
-
-@app.route('/tasks/delete/<task_id>')
-def delete_task(task_id: str):
-    print(task_id)
-    db.delete(key='tasks', item_id=task_id)
-    return redirect('/')
-
-@app.route('/edit/<path:subpath>')
-def path(subpath: str):
-    entity, entity_id = subpath.split('/')
-    if entity == 'notes':
-        note: dict[str, Any] = [note for note in db.get('notes') if note.get('id') == entity_id][0]
-        return render_template('edit_note.html', data={'note': note })
-    return subpath 
-
 @app.route('/users')
 def users():
     page = '''
