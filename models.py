@@ -19,7 +19,7 @@ class Notes(BaseModel):
     text: str
     task_id: str 
 
-class Contacts(BaseModel):
+class Contact(BaseModel):
     id: str = Field(default_factory=lambda: uuid4().hex)
     first_name: str
     last_name: str
