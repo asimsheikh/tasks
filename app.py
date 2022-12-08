@@ -41,13 +41,32 @@ def api():
             return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
 
+@app.route('/tasks')
+def tasks():
+    page = '''
+    {% extends "base.html" %}
+    {% block content %}
+        <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
+        <div>
+            <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
+            {% for task in data.tasks %}
+                <p>{{task.name}}</p>
+            {% endfor %}
+        </div>
+    {% endblock %}
+    '''
+    db_all = db.get_all()
+    data = {'tasks': db_all['tasks']}
+    return render_template_string(page, data=data)
+
 @app.route('/users')
 def users():
     page = '''
     {% extends "base.html" %}
     {% block content %}
+        <pre class='text-gray-400 text-center'>{{data | pprint}}</pre>
         <div>
-        <p><a href={{data.home_url}}>Home</a></p>
+        <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
         <ul>
             {% for user in data.users %}
             <li>{{user}}</li>
@@ -56,6 +75,5 @@ def users():
         </div>
     {% endblock %}
     '''
-    users = ['Captain America', 'Ironman', 'Thor', 'Hulk']
-    data = {'users': users, 'home_url': url_for('index')}
+    data = {'users': ['Captain America', 'Ironman', 'Thor', 'Hulk']}
     return render_template_string(page, data=data)
