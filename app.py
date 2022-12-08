@@ -40,19 +40,17 @@ def api():
             return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
 
-@app.route('/tasks/edit')
-def tasks_edit():
+@app.route('/contacts')
+def contacts():
     page = '''
     {% extends "base.html" %}
     {% block content %}
         <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
         <div hx-target="this" hx-swap="outerHTML">
-            <div><label>First Name</label>: Joe</div>
-            <div><label>Last Name</label>: Blow</div>
-            <div><label>Email</label>: joe@blow.com</div>
-            <button hx-get="/contact/1/edit">
-            Click To Edit
-            </button>
+            <label>First Name</label> {{ data.contact.first_name}}<br/>
+            <label>Last Name</label> {{ data.contact.last_name }}<br/>
+            <label>Email</label> {{ data.contact.email }} <br/>
+            <button hx-post="/contacts/{{ data.contact.id }}" class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" > Click To Edit </button>
         </div>
     {% endblock %}
     '''
@@ -84,12 +82,12 @@ def users():
     {% block content %}
         <pre class='text-gray-400 text-center'>{{data | pprint}}</pre>
         <div>
-        <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
-        <ul>
-            {% for user in data.users %}
-            <li>{{user}}</li>
-            {% endfor %}
-        </ul> 
+            <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
+            <ul>
+                {% for user in data.users %}
+                <li>{{user}}</li>
+                {% endfor %}
+            </ul> 
         </div>
     {% endblock %}
     '''
