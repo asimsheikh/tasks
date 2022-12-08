@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, render_template_string
-from jinja2 import Template
+from flask import Flask, render_template, request, redirect, render_template_string
 
 from persist import Persist
 from models import Task
@@ -40,6 +39,25 @@ def api():
             db.update(key='notes', item_id=note.id, data=note.dict())
             return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
+
+@app.route('/tasks/edit')
+def tasks_edit():
+    page = '''
+    {% extends "base.html" %}
+    {% block content %}
+        <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
+        <div hx-target="this" hx-swap="outerHTML">
+            <div><label>First Name</label>: Joe</div>
+            <div><label>Last Name</label>: Blow</div>
+            <div><label>Email</label>: joe@blow.com</div>
+            <button hx-get="/contact/1/edit">
+            Click To Edit
+            </button>
+        </div>
+    {% endblock %}
+    '''
+    data = {}
+    return render_template_string(page, data=data)
 
 @app.route('/tasks')
 def tasks():
