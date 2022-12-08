@@ -40,13 +40,41 @@ def api():
             return redirect('/notes/' + request.form['notes_task_id'])
     return 'api route'
 
-@app.route('/contacts')
-def contacts():
+@app.route('/contacts/<string:id>', methods=['GET', 'POST', 'PUT'])
+def contacts(id: str):
+    if request.method == 'POST':
+        page = ''' 
+            <form hx-put="/contacts/{{ data.contact.id }}" hx-target="this" hx-swap="outerHTML">
+            <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
+            <div>
+                <label>First Name</label>
+                <input class="text-neutral-800" type="text" name="contact_first_name" value="{{ data.contact.first_name }}">
+            </div>
+            <div>
+                <label>Last Name</label>
+                <input class="text-neutral-800" type="text" name="contact_last_name" value="{{ data.contact.last_name }}">
+            </div>
+            <div>
+                <label>Email Address</label>
+                <input class="text-neutral-800" type="email" name="contact_email" value="{{ data.contact.email }}">
+                <input type="hidden" name="contact_id" value="{{ data.contact.id }}">
+            </div>
+            <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Submit</button>
+            <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" hx-get="/contacts/{{ data.contact.id }} ">Cancel</button>
+            </form> 
+        '''
+        contacts = db.get(key='contacts')
+        data = {'contact': contacts[0]}
+        return render_template_string(page, data=data)
+
+    elif request.method == 'PUT':
+        print(request.form)
+
     page = '''
     {% extends "base.html" %}
     {% block content %}
-        <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
         <div hx-target="this" hx-swap="outerHTML">
+        <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
             <label>First Name</label> {{ data.contact.first_name}}<br/>
             <label>Last Name</label> {{ data.contact.last_name }}<br/>
             <label>Email</label> {{ data.contact.email }} <br/>
@@ -54,7 +82,8 @@ def contacts():
         </div>
     {% endblock %}
     '''
-    data = {}
+    contacts = db.get(key='contacts')
+    data = {'contact': contacts[0]}
     return render_template_string(page, data=data)
 
 @app.route('/tasks')

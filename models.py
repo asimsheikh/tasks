@@ -20,7 +20,11 @@ class Notes(BaseModel):
     task_id: str 
 
 class Contact(BaseModel):
-    id: str = Field(default_factory=lambda: uuid4().hex)
+    id: str | None = Field(default_factory=lambda: uuid4().hex)
     first_name: str
     last_name: str
     email: str 
+
+    @validator('id')
+    def validate_id(cls, v: str | None):
+        return uuid4().hex if not v else v
