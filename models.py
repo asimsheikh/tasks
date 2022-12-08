@@ -18,3 +18,9 @@ class Notes(BaseModel):
     date: str
     text: str
     task_id: str 
+
+class Contacts(BaseModel):
+    id: str = Field(default_factory=lambda: uuid4().hex)
+    first_name: str
+    last_name: str
+    email: str 
