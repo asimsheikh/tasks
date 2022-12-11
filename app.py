@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, render_template_str
 
 from persist import Persist
 from models import Task
-from serialize import to_task, to_note
+from serialize import to_task, to_note, to_contact
 
 db = Persist()
 app = Flask(__name__)
@@ -68,7 +68,8 @@ def contacts(id: str):
         return render_template_string(page, data=data)
 
     elif request.method == 'PUT':
-        print(request.form)
+        contact = to_contact(request.form)
+        db.update('contacts', contact.id, data=contact.dict())
 
     page = '''
     {% extends "base.html" %}
