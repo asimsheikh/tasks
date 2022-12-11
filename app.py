@@ -104,22 +104,3 @@ def tasks():
     db_all = db.get_all()
     data = {'tasks': db_all['tasks']}
     return render_template_string(page, data=data)
-
-@app.route('/users')
-def users():
-    page = '''
-    {% extends "base.html" %}
-    {% block content %}
-        <pre class='text-gray-400 text-center'>{{data | pprint}}</pre>
-        <div>
-            <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
-            <ul>
-                {% for user in data.users %}
-                <li>{{user}}</li>
-                {% endfor %}
-            </ul> 
-        </div>
-    {% endblock %}
-    '''
-    data = {'users': ['Captain America', 'Ironman', 'Thor', 'Hulk']}
-    return render_template_string(page, data=data)
