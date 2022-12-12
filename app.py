@@ -13,10 +13,19 @@ def temp_clear():
 
 @app.route('/')
 def index():
-    return 'In the tasks app'
+    page = '''
+    {% extends "base.html" %}
+    {% block content %}
+        <div>
+            <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
+            <p>In the tasks app</p>
+        </div>
+    {% endblock %}
+    '''
+    return render_template_string(page, data={})
 
-@app.route('/api', methods=['POST', 'GET'])
-def api():
+@app.route('/api/<entity>', methods=['POST', 'GET'])
+def api(entity: str):
     if request.method == 'GET':
         page = '''
         {% extends "base.html" %}
@@ -27,6 +36,11 @@ def api():
                 {% for task in data.tasks %}
                     <p>{{task.name}}</p>
                 {% endfor %}
+            <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
+                    hx-trigger='click'
+                    hx-post='/api/tasks'
+                    hx-target='this'
+                    hx-swap='outerHTML'>Edit Tasks</button>
             </div>
         {% endblock %}
         '''
@@ -34,15 +48,9 @@ def api():
         data = {'tasks': db_all.get('tasks', [])}
         return render_template_string(page, data=data)
 
-    elif request.method == 'POST':
-        if request.form['action'] == 'add_task':
-            task = Task(name=request.form.get('task_name'))
-            db.add(key='tasks', data=task.dict())
-            return redirect('/')
-        elif request.form['action'] == 'save_task':
-            task = to_task(request.form)
-            db.update(key='tasks', item_id=task.id, data=task.dict())
-            return redirect('/')
+    elif request.method == 'POST' and request.headers['HX-Request']:
+        print(request.headers)
+        return 'Editing the task'
 
     return 'In api routes'
 
