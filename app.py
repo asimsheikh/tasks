@@ -31,14 +31,15 @@ def api(entity: str):
         {% extends "base.html" %}
         {% block content %}
             <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
-            <div>
+            <form hx-post="/api/tasks">
                 <div class='my-4'>
-                    <input class="text-neutral-800" type="text" name="contact_first_name" value="">
+                    <input class="text-neutral-800" type="text" name="task" value="The world is ending..">
                 </div>
                 <div>
                     <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Add Task</button>
                 </div>
-            </div>
+                <input type="hidden" value="add_task" />
+            </form>
             <div>
                 <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
                 {% for task in data.tasks %}
@@ -58,7 +59,12 @@ def api(entity: str):
 
     elif request.method == 'POST' and request.headers['HX-Request']:
         print(request.headers)
+        print(request.form)
         return 'Editing the task'
+    
+    elif request.method == 'POST' and entity == "tasks":
+        print(request.form)
+        return redirect('/')
 
     return 'In api routes'
 
