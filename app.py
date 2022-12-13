@@ -32,6 +32,14 @@ def api(entity: str):
         {% block content %}
             <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
             <div>
+                <div class='my-4'>
+                    <input class="text-neutral-800" type="text" name="contact_first_name" value="">
+                </div>
+                <div>
+                    <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Add Task</button>
+                </div>
+            </div>
+            <div>
                 <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
                 {% for task in data.tasks %}
                     <p>{{task.name}}</p>
@@ -59,22 +67,22 @@ def contacts(id: str):
     if request.method == 'POST':
         page = ''' 
             <form hx-put="/contacts/{{ data.contact.id }}" hx-target="this" hx-swap="outerHTML">
-            <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
-            <div>
-                <label>First Name</label>
-                <input class="text-neutral-800" type="text" name="contact_first_name" value="{{ data.contact.first_name }}">
-            </div>
-            <div>
-                <label>Last Name</label>
-                <input class="text-neutral-800" type="text" name="contact_last_name" value="{{ data.contact.last_name }}">
-            </div>
-            <div>
-                <label>Email Address</label>
-                <input class="text-neutral-800" type="email" name="contact_email" value="{{ data.contact.email }}">
-                <input type="hidden" name="contact_id" value="{{ data.contact.id }}">
-            </div>
-            <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Submit</button>
-            <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" hx-get="/contacts/{{ data.contact.id }} ">Cancel</button>
+                <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
+                <div>
+                    <label>First Name</label>
+                    <input class="text-neutral-800" type="text" name="contact_first_name" value="{{ data.contact.first_name }}">
+                </div>
+                <div>
+                    <label>Last Name</label>
+                    <input class="text-neutral-800" type="text" name="contact_last_name" value="{{ data.contact.last_name }}">
+                </div>
+                <div>
+                    <label>Email Address</label>
+                    <input class="text-neutral-800" type="email" name="contact_email" value="{{ data.contact.email }}">
+                    <input type="hidden" name="contact_id" value="{{ data.contact.id }}">
+                </div>
+                <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Submit</button>
+                <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" hx-get="/contacts/{{ data.contact.id }} ">Cancel</button>
             </form> 
         '''
         contacts = db.get(key='contacts')
