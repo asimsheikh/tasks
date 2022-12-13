@@ -30,37 +30,59 @@ def api(entity: str):
         page = '''
         {% extends "base.html" %}
         {% block content %}
-            <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
             <form hx-post="/api/tasks">
+            <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
                 <div class='my-4'>
-                    <input class="text-neutral-800" type="text" name="task" value="The world is ending..">
+                    <input class="text-neutral-800" type="text" name="task_name" value="">
                 </div>
                 <div>
                     <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Add Task</button>
                 </div>
-                <input type="hidden" value="add_task" />
+                <input type="hidden" name="action" value="add_task" />
+                <input type="hidden" name="user" value="asimsheikh" />
+                <div>
+                    <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
+                    {% for task in data.tasks %}
+                        <p>{{task.name}}</p>
+                    {% endfor %}
+                </div>
             </form>
-            <div>
-                <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
-                {% for task in data.tasks %}
-                    <p>{{task.name}}</p>
-                {% endfor %}
-            <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
-                    hx-trigger='click'
-                    hx-post='/api/tasks'
-                    hx-target='this'
-                    hx-swap='outerHTML'>Edit Tasks</button>
-            </div>
         {% endblock %}
         '''
         db_all = db.get_all()
         data = {'tasks': db_all.get('tasks', [])}
         return render_template_string(page, data=data)
 
-    elif request.method == 'POST' and request.headers['HX-Request']:
+    elif request.method == 'POST' and request.headers['HX-Request'] and request.form.get('action') == "add_task":
         print(request.headers)
         print(request.form)
-        return 'Editing the task'
+        task = Task(name=request.form.get('task_name', ''))
+        db.add('tasks', data=task.dict())
+        page = '''
+        {% extends "base.html" %}
+        {% block content %}
+            <form hx-post="/api/tasks">
+            <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
+                <div class='my-4'>
+                    <input class="text-neutral-800" type="text" name="task_name" value="">
+                </div>
+                <div>
+                    <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Add Task</button>
+                </div>
+                <input type="hidden" name="action" value="add_task" />
+                <div>
+                    <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
+                    {% for task in data.tasks %}
+                        <p>{{task.name}}</p>
+                    {% endfor %}
+                </div>
+            </form>
+        {% endblock %}
+        '''
+
+        db_all = db.get_all()
+        data = {'tasks': db_all.get('tasks', [])}
+        return render_template_string(page, data=data)
     
     elif request.method == 'POST' and entity == "tasks":
         print(request.form)
