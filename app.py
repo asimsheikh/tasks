@@ -11,15 +11,46 @@ def temp_clear():
     db.clear()
     return 'Cleared'
 
+@app.route('/pebble',  methods=['POST'])
+def pebble():
+	data = dict(id=int(request.form['id']))
+	page='''
+	   <div id="1" class="grow mx-2 bg-red-300 w-14">
+           {{ data.id }}
+       </div>
+	'''
+	return render_template_string(page, data=data)
+
 @app.route('/')
 def index():
     page = '''
     {% extends "base.html" %}
     {% block content %}
-        <div>
-            <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
-            <p>In the tasks app</p>
+        <div class="mb-4">
+          <p class="text-xl font-extrabold">Pebbles App</p>
         </div>
+        <div id="pebbles" class="flex flex-row">
+          <div id="1" class="grow mx-2 bg-green-300 w-14"
+            hx-post="/pebble" hx-swap="outerHTML" 
+            hx-vals='{"id": 1}'>
+             01
+          </div>
+          <div id="2" class="grow mx-2 bg-green-300 w-14"
+            hx-post="/pebble" hx-swap="outerHTML" 
+            hx-vals='{"id": 2}'>
+             02
+          </div>
+          <div id="3" class="grow mx-2 bg-green-300 w-14"
+            hx-post="/pebble" hx-swap="outerHTML" 
+            hx-vals='{"id": 3}'>
+             03
+          </div>
+          <div id="4" class="grow mx-2 bg-green-300 w-14"
+            hx-post="/pebble" hx-swap="outerHTML" 
+            hx-vals='{"id": 4}'>
+             04
+          </div>
+        <div>
     {% endblock %}
     '''
     return render_template_string(page, data={})
@@ -136,32 +167,3 @@ def contacts(id: str):
     contacts = db.get(key='contacts')
     data = {'contact': contacts[0]}
     return render_template_string(page, data=data)
-
-@app.route('/<filename>')
-def temp(filename: str): 
-    page = '''
-    <%= extends "base.html" %>
-    <%= block content %>
-        <form hx-post="/api/tasks">
-        <pre class='text-gray-400 pl-40'>{{data | pprint}}</pre>
-            <div class='my-4'>
-                <input class="text-neutral-800" type="text" name="task_name" value="">
-            </div>
-            <div>
-                <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Add Task</button>
-            </div>
-            <input type="hidden" name="action" value="add_task" />
-            <input type="hidden" name="user" value="asimsheikh" />
-            <div>
-                <p><a class="font-extrabold pb-2" href={{url_for('index')}}>Home</a></p>
-                <%= for task in data.tasks %>
-                    <p>{{task.name}}</p>
-                <%= endfor %>
-            </div>
-        </form>
-    <%= endblock %>
-    '''
-    if filename.endswith('.json'):
-        return dict(ok=True, filename=filename)
-    else:
-        return f"<h1>here we are</h1><p>The name of the route is: {filename}</p>"
