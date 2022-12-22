@@ -10,10 +10,11 @@
         <div class="flex">
             {% for pebble in pebbles %}
             <div id="{{ pebble.pebble_id }}"
-                class="flex grow m-2 bg-{{ 'green' if pebble.checked else 'red' }}-300 w-14" hx-post="/pebble"
+                class="flex grow m-2 bg-{{ 'green' if pebble.checked else 'red' }}-300 w-14 h-14" hx-post="/pebble"
                 hx-target="#pebbles" hx-swap="outerHTML"
                 hx-vals='{"pebble_id": {{ pebble.pebble_id}}, "id": "{{ pebble.id }}" }'>
-                {{ pebble.pebble_id }}
+                <!-- {{ pebble.pebble_id }} -->
+                &nbsp;
             </div>
             {% endfor %}
         </div>
