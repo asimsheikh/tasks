@@ -5,12 +5,17 @@
         <p class="text-xl font-extrabold">Pebbles App</p>
         <p>Another Change</p>
     </div>
-    <div class="flex flex-row">
-        {% for pebble in data.pebbles %}
-        <div id="{{ pebble.pebble_id }}" class="grow mx-2 bg-{{ 'green' if pebble.checked else 'red' }}-300 w-14"
-            hx-post="/pebble" hx-target="#pebbles" hx-swap="outerHTML"
-            hx-vals='{"pebble_id": {{ pebble.pebble_id}}, "id": "{{ pebble.id }}" }'>
-            {{ pebble.pebble_id }}
+    <div class="">
+        {% for pebbles in data.pebbles %}
+        <div class="flex">
+            {% for pebble in pebbles %}
+            <div id="{{ pebble.pebble_id }}"
+                class="flex grow m-2 bg-{{ 'green' if pebble.checked else 'red' }}-300 w-14" hx-post="/pebble"
+                hx-target="#pebbles" hx-swap="outerHTML"
+                hx-vals='{"pebble_id": {{ pebble.pebble_id}}, "id": "{{ pebble.id }}" }'>
+                {{ pebble.pebble_id }}
+            </div>
+            {% endfor %}
         </div>
         {% endfor %}
     </div>

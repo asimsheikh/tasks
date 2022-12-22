@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 @app.route('/clear')
 def temp_clear():
-    db.clear()
-    return 'Cleared'
+	db.clear()
+	return 'Cleared'
 
 @app.route('/pebble',  methods=['POST'])
 def pebble():
@@ -15,9 +15,11 @@ def pebble():
 	pebble = { **pebble,**{"checked": not pebble['checked']}}
 	db.update('pebbles', request.form['id'], pebble)
 	pebbles = db.get('pebbles')
+	pebbles = [pebbles[i:i+4] for i in range(0, 96, 4)]
 	return render_template('pebbles.html', data={"pebbles": pebbles})
 
 @app.route('/')
 def index():
-    pebbles = db.get('pebbles')
-    return render_template('pebbles.html', data={"pebbles": pebbles})
+	pebbles = db.get('pebbles')
+	pebbles = [pebbles[i:i+4] for i in range(0, 96, 4)]
+	return render_template('pebbles.html', data={"pebbles": pebbles})
