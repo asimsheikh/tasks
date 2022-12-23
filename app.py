@@ -46,7 +46,10 @@ def testing(task_id: str):
 
 	if request.method == 'PUT' and task_id:
 		task = [ task for task in db.get('tasks') if task['id'] == task_id ][0]
+		name = request.form['task_name']
 		task = Task(**task)
+		task.name = name
+		db.update('tasks', item_id=task_id,data=task.dict())
 		ps = div(
 			   p(task.name, class_='py-2 text-neutral-500'), 
 			   p(task.id or '', class_="font-bold text-neutral-700"), 
