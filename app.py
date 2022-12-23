@@ -40,7 +40,7 @@ def testing(task_id: str):
 			   hx_post=f'/testing/{task.id}',
 			   hx_trigger='dblclick',
 			   hx_target=f"div[id='{task.id}']",
-			   hx_swap='outerHTML'
+			   hx_swap='innerHTML'
 			)
 		return ps
 
@@ -54,8 +54,8 @@ def testing(task_id: str):
 			   id=task.id,
 			   hx_post=f'/testing/{task.id}',
 			   hx_trigger='dblclick',
-			   hx_target='this',
-			   hx_swap='outerHTML'
+			   hx_target=f"div[id='{task.id}']",
+			   hx_swap='innerHTML'
 			)
 		return ps
 
