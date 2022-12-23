@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, render_template_string
 from persist import Persist
 from models import Task
 
-from html import div, p
+from htm import div, p
 
 db = Persist()
 app = Flask(__name__)
@@ -12,18 +12,66 @@ def temp_clear():
 	db.clear()
 	return 'Cleared'
 
-@app.route('/testing', methods=['GET','POST'])
-def testing():
-	if request.method == 'POST':
-		return '<h1>Asim</h1>'
+@app.route('/testing', defaults={'task_id': None})
+@app.route('/testing/<task_id>', methods=['GET','POST', 'PUT'])
+def testing(task_id: str):
+	if request.method == 'POST' and task_id:
+		task = [ task for task in db.get('tasks') if task['id'] == task_id ][0]
+		task = Task(**task)
+		return f'''
+			<form hx-put="/testing/{task.id}" hx-target="div[id='{task.id}']" hx-swap="outerHTML">
+				<div>
+					<label>Task Name</label>
+					<input class="w-full" type="text" name="task_name" value="{task.name}" placeholder="wash the dishes">
+				</div>
+				<button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Submit</button>
+				<button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" hx-get="/testing/{task.id}">Cancel</button>
+			</form> 
+		'''
+
+	if request.method == 'GET' and task_id:
+		task = [ task for task in db.get('tasks') if task['id'] == task_id ][0]
+		task = Task(**task)
+		ps = div(
+			   p(task.name, class_='py-2 text-neutral-500'), 
+			   p(task.id or '', class_="font-bold text-neutral-700"), 
+			   class_='p-4 mx-6 my-2 border',
+			   id=task.id,
+			   hx_post=f'/testing/{task.id}',
+			   hx_trigger='dblclick',
+			   hx_target=f"div[id='{task.id}']",
+			   hx_swap='outerHTML'
+			)
+		return ps
+
+	if request.method == 'PUT' and task_id:
+		task = [ task for task in db.get('tasks') if task['id'] == task_id ][0]
+		task = Task(**task)
+		ps = div(
+			   p(task.name, class_='py-2 text-neutral-500'), 
+			   p(task.id or '', class_="font-bold text-neutral-700"), 
+			   class_='p-4 mx-6 my-2 border',
+			   id=task.id,
+			   hx_post=f'/testing/{task.id}',
+			   hx_trigger='dblclick',
+			   hx_target='this',
+			   hx_swap='outerHTML'
+			)
+		return ps
+
 
 	tasks: list[str] = []
 	for db_task in db.get('tasks'):
 		task = Task(**db_task)
 		ps = div(
 			   p(task.name, class_='py-2 text-neutral-500'), 
-			   p(task.id, class_="font-bold text-neutral-700"), 
-			   class_='p-4 mx-6 my-2 border hover:border-4'
+			   p(task.id or '', class_="font-bold text-neutral-700"), 
+			   class_='p-4 mx-6 my-2 border',
+			   id=task.id,
+			   hx_post=f'/testing/{task.id}',
+			   hx_trigger='dblclick',
+			   hx_target='this',
+			   hx_swap=f'#{task.id}'
 			)
 		tasks.append(ps)
 		

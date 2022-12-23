@@ -4,9 +4,11 @@ def div(
         class_: str | None = None,
         hx_post:str | None = None, 
         hx_target: str | None = None, 
+        hx_trigger: str | None = None,
+        hx_swap: str | None = None,
         __: list[str] | None = None) -> str:
     items: str = ''.join([x for x in args or []])
-    return f'<div id="{id}" class="{class_}" hx-post="{hx_post}" hx-target="{hx_target}">{items}</div>' 
+    return f'<div id="{id}" class="{class_}" hx-post="{hx_post}" hx-swap="{hx_swap}" hx-target="{hx_target}" hx-trigger="{hx_trigger}">{items}</div>' 
 
 def p(text: str, class_: str | None = None) -> str:
     return f'<p class="{class_}">{text}</p>'
