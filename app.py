@@ -7,11 +7,6 @@ from htm import div, p
 db = Persist()
 app = Flask(__name__)
 
-@app.route('/clear')
-def temp_clear():
-    db.clear()
-    return 'Cleared'
-
 @app.route('/testing', defaults={'task_id': None})
 @app.route('/testing/<task_id>', methods=['GET','POST', 'PUT'])
 def testing(task_id: str):
@@ -21,8 +16,8 @@ def testing(task_id: str):
         return f'''
             <form hx-put="/testing/{task.id}" hx-target="div[id='{task.id}']" hx-swap="outerHTML">
                 <div>
-                    <label>Task Name</label>
-                    <input class="w-full" type="text" name="task_name" value="{task.name}" placeholder="wash the dishes">
+                    <label class="font-bold">Task Name</label>
+                    <input autofocus class="w-3/4" type="text" name="task_name" value="{task.name}" placeholder="wash the dishes">
                 </div>
                 <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Submit</button>
                 <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" hx-get="/testing/{task.id}">Cancel</button>
@@ -35,11 +30,7 @@ def testing(task_id: str):
         ps = div(
                p(task.name, class_='py-2 text-neutral-500'), 
                p(task.id or '', class_="font-bold text-neutral-700"), 
-               class_='p-4 mx-6 my-2 border',
-               id=task.id,
-               hx_post=f'/testing/{task.id}',
-               hx_trigger='dblclick',
-               hx_target=f"div[id='{task.id}']",
+               class_='p-4 mx-6 my-2 border', id=task.id, hx_post=f'/testing/{task.id}', hx_trigger='dblclick', hx_target=f"div[id='{task.id}']",
                hx_swap='innerHTML'
             )
         return ps
@@ -53,15 +44,10 @@ def testing(task_id: str):
         ps = div(
                p(task.name, class_='py-2 text-neutral-500'), 
                p(task.id or '', class_="font-bold text-neutral-700"), 
-               class_='p-4 mx-6 my-2 border',
-               id=task.id,
-               hx_post=f'/testing/{task.id}',
-               hx_trigger='dblclick',
-               hx_target=f"div[id='{task.id}']",
+               class_='p-4 mx-6 my-2 border', id=task.id, hx_post=f'/testing/{task.id}', hx_trigger='dblclick', hx_target=f"div[id='{task.id}']",
                hx_swap='innerHTML'
             )
         return ps
-
 
     tasks: list[str] = []
     for db_task in db.get('tasks'):

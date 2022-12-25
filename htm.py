@@ -22,7 +22,7 @@ def p(text: str, class_: str | None = None) -> str:
 #     p('hello world'),
 #     p('nothing here'),
 #     p('adding items'),
-#     div(
+#     div
 #         p('Here we are'),
 #         form(
 #             input(id=1, name='hello', value=''),
