@@ -3,6 +3,7 @@ from persist import Persist
 from models import Task
 
 from htm import div, p
+from temp import form, field, button
 
 db = Persist()
 app = Flask(__name__)
@@ -44,7 +45,7 @@ def testing(task_id: str):
         ps = div(
                p(task.name, class_='py-2 text-neutral-500'), 
                p(task.id or '', class_="font-bold text-neutral-700"), 
-               class_='p-4 mx-6 my-2 border', id=task.id, hx_post=f'/testing/{task.id}', hx_trigger='dblclick', hx_target=f"div[id='{task.id}']",
+               class_='p-4 mx-6 my-2 border hover:bg-neutral-200', id=task.id, hx_post=f'/testing/{task.id}', hx_trigger='dblclick', hx_target=f"div[id='{task.id}']",
                hx_swap='innerHTML'
             )
         return ps
@@ -55,7 +56,7 @@ def testing(task_id: str):
         ps = div(
                p(task.name, class_='py-2 text-neutral-500'), 
                p(task.id or '', class_="font-bold text-neutral-700"), 
-               class_='p-4 mx-6 my-2 border',
+               class_='p-4 mx-6 my-2 border hover:bg-neutral-100',
                id=task.id,
                hx_post=f'/testing/{task.id}',
                hx_trigger='dblclick',
@@ -90,3 +91,31 @@ def index():
     pebbles = db.get('pebbles')
     pebbles = [pebbles[i:i+4] for i in range(0, 96, 4)]
     return render_template('pebbles.html', data={"pebbles": pebbles})
+
+@app.route('/forms', methods=['GET', 'POST'])
+def forms():
+    if request.method == 'POST':
+        print(request.form)
+        return div(
+                p(request.form['task_name'], class_='py-2 text-neutral-500'), 
+                p(request.form['task_date'], class_='py-2 text-neutral-500'), 
+                p(request.form['task_allocation'], class_="font-bold text-neutral-700"), 
+                class_='p-4 mx-6 my-2 border')
+
+    template = form(
+                field(label='Task Name', id='task_name', name='task_name', type='text', value='First task', autofocus=True), 
+                field(label='Task Allocation', id='task_allocation', name='task_allocation', type='text', value="projects"),
+                field(label='Date', id='task_date', name='task_date', type='date', value="2022-12-25"),
+                button(class_="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none", text='Submit', onclick='submit'),
+                button(class_="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none",text='Cancel', onclick=''),
+                post='/forms')
+    head = '''  
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <script src="{{url_for('static', filename='tailwindcss.min.js')}}"></script>
+            <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
+        </head>
+    ''' 
+    return render_template_string(head + template)

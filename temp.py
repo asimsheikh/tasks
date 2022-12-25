@@ -1,22 +1,15 @@
-def form(*args):
-    return 'form' 
+def form(*args, post):
+    innerHTML = ''.join(arg for arg in args)
+    return f'''<form hx-post={post}>
+                 {innerHTML}
+               </form>'''
 
-def field(label, id, name, type): 
+def field(label, id, name, type='text', value='', autofocus=False): 
     return f'''
         <div>
-            <label>{label}</label> <input type='{type}' id='{id}' name='{name}'/>
+            <label>{label}</label> <input type='{type}' id='{id}' name='{name}' value='{value}' {'autofocus' if autofocus else ''}/>
         </div>
     ''' 
 
-def button(text, onclick): 
-    return f'''
-        <button onclick='{onclick}'>{text}</button>
-    '''
-
-template = form(
-              field(label='First Name', id='first_name', name='first_name', type='text'), 
-              field(label='Last Name', id='last_name', name='last_name', type='text'),
-              button(text='submit', onclick='submit')
-)
-
-assert template == 'form'
+def button(class_,text, onclick): 
+    return f''' <button class='{class_}' onclick='{onclick}'>{text}</button> '''
