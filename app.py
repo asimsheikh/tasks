@@ -17,7 +17,7 @@ def testing(task_id: str):
             <form hx-put="/testing/{task.id}" hx-target="div[id='{task.id}']" hx-swap="outerHTML">
                 <div>
                     <label class="font-bold">Task Name</label>
-                    <input autofocus class="w-3/4" type="text" name="task_name" value="{task.name}" placeholder="wash the dishes">
+                    <input autofocus onfocus="this.select()" class="w-3/4" type="text" name="task_name" value="{task.name}" placeholder="wash the dishes">
                 </div>
                 <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none">Submit</button>
                 <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none" hx-get="/testing/{task.id}">Cancel</button>
