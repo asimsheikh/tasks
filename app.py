@@ -96,9 +96,11 @@ def index():
 def forms():
     if request.method == 'POST':
         print(request.form)
+        task_name = request.form['task_name']
+        task_date = request.form['task_date']
         return div(
-                p(request.form['task_name'], class_='py-2 text-neutral-500'), 
-                p(request.form['task_date'], class_='py-2 text-neutral-500'), 
+                p(task_name, class_='py-2 text-neutral-500'), 
+                p(task_date, class_='py-2 text-neutral-500'), 
                 p(request.form['task_allocation'], class_="font-bold text-neutral-700"), 
                 class_='p-4 mx-6 my-2 border')
 
@@ -119,3 +121,40 @@ def forms():
         </head>
     ''' 
     return render_template_string(head + template)
+
+@app.route('/htmx/', defaults={'id': None})
+@app.route('/htmx/<id>', methods=('GET', 'POST'))
+def htmx_test(id: str):
+    if id and request.method=='POST':
+        return div(
+                p(id, class_='text-neutral-200'),
+            id=id, hx_post=f'/htmx/{id}', hx_trigger='dblclick',
+            hx_target='this', hx_swap='outerHTML', class_='p-10 bg-blue-400 border-2')
+
+    head = '''  
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <script src="{{url_for('static', filename='tailwindcss.min.js')}}"></script>
+            <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
+        </head>
+    ''' 
+    divs = div(
+            p('This first element', class_='p-10 font-bold text-2xl text-neutral-200'),
+             div(
+               p('The next element', class_='text-neutral-200'),
+                id='1', hx_post='/htmx/1', hx_trigger='dblclick', hx_target='this',
+                hx_swap='outerHTML', class_='p-10 bg-red-200'),
+             div(
+                p('The next element', class_='text-neutral-200'), 
+                id='2', hx_post='/htmx/2', hx_trigger='dblclick', hx_target='this',
+                hx_swap='outerHTML', class_='p-10 bg-red-300'),
+            div(
+                p('The next element', class_='text-neutral-200'),
+                id='3', hx_post='/htmx/3', hx_trigger='dblclick', hx_target='this',
+                hx_swap='outerHTML', class_='p-10 bg-red-400'),
+
+        id='container', class_='p-10 bg-neutral-800')
+
+    return render_template_string(head + divs)
