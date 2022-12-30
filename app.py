@@ -2,11 +2,21 @@ from flask import Flask, request, render_template, render_template_string
 from persist import Persist
 from models import Task
 
-from htm import div, p
-from temp import form, field, button
+from htm import div, p, form, field, button
 
 db = Persist()
 app = Flask(__name__)
+repo = dict(username='asimsheikh', password='bestintheworld')
+
+HEAD = '''  
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="{{url_for('static', filename='tailwindcss.min.js')}}"></script>
+        <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
+    </head>
+''' 
 
 @app.route('/testing', defaults={'task_id': None})
 @app.route('/testing/<task_id>', methods=['GET','POST', 'PUT'])
@@ -77,50 +87,23 @@ def testing(task_id: str):
     ''' 
     return render_template_string(head + container, data={})
 
-@app.route('/pebble',  methods=['POST'])
-def pebble():
-    pebble = [ pebble for pebble in db.get('pebbles') if pebble['id'] == request.form['id'] ][0]
-    pebble = { **pebble,**{"checked": not pebble['checked']}}
-    db.update('pebbles', request.form['id'], pebble)
-    pebbles = db.get('pebbles')
-    pebbles = [pebbles[i:i+4] for i in range(0, 96, 4)]
-    return render_template('pebbles.html', data={"pebbles": pebbles})
-
 @app.route('/')
 def index():
-    pebbles = db.get('pebbles')
-    pebbles = [pebbles[i:i+4] for i in range(0, 96, 4)]
-    return render_template('pebbles.html', data={"pebbles": pebbles})
+    page = '''
+        <div class="mx-10 my-2">
+            <p class="text-2xl font-bold">Your details</p>
 
-@app.route('/forms', methods=['GET', 'POST'])
-def forms():
-    if request.method == 'POST':
-        print(request.form)
-        task_name = request.form['task_name']
-        task_date = request.form['task_date']
-        return div(
-                p(task_name, class_='py-2 text-neutral-500'), 
-                p(task_date, class_='py-2 text-neutral-500'), 
-                p(request.form['task_allocation'], class_="font-bold text-neutral-700"), 
-                class_='p-4 mx-6 my-2 border')
-
-    template = form(
-                field(label='Task Name', id='task_name', name='task_name', type='text', value='First task', autofocus=True), 
-                field(label='Task Allocation', id='task_allocation', name='task_allocation', type='text', value="projects"),
-                field(label='Date', id='task_date', name='task_date', type='date', value="2022-12-25"),
-                button(class_="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none", text='Submit', onclick='submit'),
-                button(class_="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none",text='Cancel', onclick=''),
-                post='/forms')
-    head = '''  
-        <head>
-            <meta charset="utf-8" />
-            <meta http-equiv="x-ua-compatible" content="ie=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <script src="{{url_for('static', filename='tailwindcss.min.js')}}"></script>
-            <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
-        </head>
-    ''' 
-    return render_template_string(head + template)
+            <div class="flex">
+                <p>Username: {{data.username}}</p>
+                <button class="rounded-md border-2 border-zinc-700 px-2 focus:outline-none">Edit</button>
+            </div>
+            <div class="flex">
+                <p>Password: {{data.password}}</p>
+                <button class="rounded-md border-2 border-zinc-700 px-2 focus:outline-none">Edit</button>
+            </div>
+        </div>
+    '''
+    return render_template_string(HEAD + page, data=repo)
 
 @app.route('/htmx/', defaults={'id': None})
 @app.route('/htmx/<id>', methods=('GET', 'POST'))
