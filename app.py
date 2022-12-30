@@ -128,8 +128,8 @@ def htmx_test(id: str):
     if id and request.method=='POST':
         return div(
                 p(id, class_='text-neutral-200'),
-            id=id, hx_post=f'/htmx/{id}', hx_trigger='dblclick',
-            hx_target='this', hx_swap='outerHTML', class_='p-10 bg-blue-400 border-2')
+               id=id, hx_post=f'/htmx/{id}', hx_trigger='dblclick',
+               hx_target='this', hx_swap='outerHTML', class_='p-10 bg-blue-400 border-2')
 
     head = '''  
         <head>
@@ -141,20 +141,25 @@ def htmx_test(id: str):
         </head>
     ''' 
     divs = div(
-            p('This first element', class_='p-10 font-bold text-2xl text-neutral-200'),
-             div(
-               p('The next element', class_='text-neutral-200'),
-                id='1', hx_post='/htmx/1', hx_trigger='dblclick', hx_target='this',
-                hx_swap='outerHTML', class_='p-10 bg-red-200'),
-             div(
-                p('The next element', class_='text-neutral-200'), 
-                id='2', hx_post='/htmx/2', hx_trigger='dblclick', hx_target='this',
-                hx_swap='outerHTML', class_='p-10 bg-red-300'),
-            div(
-                p('The next element', class_='text-neutral-200'),
-                id='3', hx_post='/htmx/3', hx_trigger='dblclick', hx_target='this',
-                hx_swap='outerHTML', class_='p-10 bg-red-400'),
+              div(
+                div(
+                    p('The next element', class_='text-neutral-200'), 
+                id='1', hx_post='/htmx/1', hx_trigger='dblclick', hx_target='this', hx_swap='outerHTML', class_='p-10 bg-red-200'),
 
-        id='container', class_='p-10 bg-neutral-800')
+                div(
+                    p('The next element', class_='text-neutral-200'),
+                    id='2', hx_post='/htmx/2', hx_trigger='dblclick', hx_target='this', hx_swap='outerHTML', class_='p-10 bg-red-300'),
+
+                div(
+                    p('The next element', class_='text-neutral-200'),
+                    id='3', hx_post='/htmx/3', hx_trigger='dblclick', hx_target='5', hx_swap='outerHTML', class_='p-10 bg-red-400'),
+
+                id='container', class_='p-10 bg-neutral-800 flex'),
+            
+                div(
+                    p('The swapped element position', class_='p-10 font-bold text-2xl text-neutral-200'),
+                    id='5', class_='p-10 bg-neutral-800 flex',
+                ), 
+            ) 
 
     return render_template_string(head + divs)
