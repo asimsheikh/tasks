@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, render_template_string
+from flask import Flask, request, render_template_string
 from persist import Persist
 from models import Task
 
@@ -76,16 +76,7 @@ def testing(task_id: str):
         tasks.append(ps)
         
     container = div(*tasks, id='pebbles', class_='flex flex-col grow m-2', hx_post='/pebbles', hx_target='#pebbles')
-    head = '''  
-        <head>
-            <meta charset="utf-8" />
-            <meta http-equiv="x-ua-compatible" content="ie=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <script src="{{url_for('static', filename='tailwindcss.min.js')}}"></script>
-            <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
-        </head>
-    ''' 
-    return render_template_string(head + container, data={})
+    return render_template_string(HEAD + container, data={})
 
 @app.route('/')
 def index():
@@ -104,45 +95,3 @@ def index():
         </div>
     '''
     return render_template_string(HEAD + page, data=repo)
-
-@app.route('/htmx/', defaults={'id': None})
-@app.route('/htmx/<id>', methods=('GET', 'POST'))
-def htmx_test(id: str):
-    if id and request.method=='POST':
-        return div(
-                p(id, class_='text-neutral-200'),
-               id=id, hx_post=f'/htmx/{id}', hx_trigger='dblclick',
-               hx_target='this', hx_swap='outerHTML', class_='p-10 bg-blue-400 border-2')
-
-    head = '''  
-        <head>
-            <meta charset="utf-8" />
-            <meta http-equiv="x-ua-compatible" content="ie=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <script src="{{url_for('static', filename='tailwindcss.min.js')}}"></script>
-            <script src="{{url_for('static', filename='htmx.min.js')}}"></script>
-        </head>
-    ''' 
-    divs = div(
-              div(
-                div(
-                    p('The next element', class_='text-neutral-200'), 
-                id='1', hx_post='/htmx/1', hx_trigger='dblclick', hx_target='this', hx_swap='outerHTML', class_='p-10 bg-red-200'),
-
-                div(
-                    p('The next element', class_='text-neutral-200'),
-                    id='2', hx_post='/htmx/2', hx_trigger='dblclick', hx_target='this', hx_swap='outerHTML', class_='p-10 bg-red-300'),
-
-                div(
-                    p('The next element', class_='text-neutral-200'),
-                    id='3', hx_post='/htmx/3', hx_trigger='dblclick', hx_target='5', hx_swap='outerHTML', class_='p-10 bg-red-400'),
-
-                id='container', class_='p-10 bg-neutral-800 flex'),
-            
-                div(
-                    p('The swapped element position', class_='p-10 font-bold text-2xl text-neutral-200'),
-                    id='5', class_='p-10 bg-neutral-800 flex',
-                ), 
-            ) 
-
-    return render_template_string(head + divs)
