@@ -78,20 +78,38 @@ def testing(task_id: str):
     container = div(*tasks, id='pebbles', class_='flex flex-col grow m-2', hx_post='/pebbles', hx_target='#pebbles')
     return render_template_string(HEAD + container, data={})
 
+@app.route('/change')
+def change():
+    return '''
+        <!-- html -->
+            <div class="bg-red-200">Changed data</div>
+        <!-- !html --> 
+    '''
+
 @app.route('/')
 def index():
     page = '''
-        <div class="mx-10 my-2">
-            <p class="text-2xl font-bold">Your details</p>
+       <!-- html -->
+        <body>
+            <div>
+              <p>Elements to change</p>
+              <p id="change">Element to change</p>
+              <p id="other">Changing the other</p>
 
-            <div class="flex">
-                <p>Username: {{data.username}}</p>
-                <button class="rounded-md border-2 border-zinc-700 px-2 focus:outline-none">Edit</button>
+              <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
+                      hx-get="/change"
+                      hx-trigger="click"
+                      hx-target="#other"
+                      hx-swap="outerHTML"> Change Data </button>
+
+              <div class="mt-2 border-zinc-700 p-2 focus:outline-none"
+                      hx-get="/change"
+                      hx-trigger="click"
+                      hx-target="#change"
+                      hx-swap="outerHTML"> Div Data </div>
+
             </div>
-            <div class="flex">
-                <p>Password: {{data.password}}</p>
-                <button class="rounded-md border-2 border-zinc-700 px-2 focus:outline-none">Edit</button>
-            </div>
-        </div>
+        </body>
+       <!-- !html -->     
     '''
     return render_template_string(HEAD + page, data=repo)
