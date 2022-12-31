@@ -78,13 +78,28 @@ def testing(task_id: str):
     container = div(*tasks, id='pebbles', class_='flex flex-col grow m-2', hx_post='/pebbles', hx_target='#pebbles')
     return render_template_string(HEAD + container, data={})
 
-@app.route('/change')
-def change():
-    return '''
-        <!-- html -->
-            <div class="bg-red-200">Changed data</div>
-        <!-- !html --> 
-    '''
+@app.post('/change/<path:subpath>')
+def change(subpath: str):
+    if subpath == 'username':
+        return render_template_string(''' <!-- html -->
+                    <form hx-post="/change/username/add">
+                        <input type="text" value="{{data.username}}" name="username" id="username" autofocus onfocus="this.select()"/>
+                    </form>
+                <!-- !html --> ''', data=repo)
+    elif subpath == 'username/add':
+        username = request.form['username']
+        repo['username'] = username
+        page = ''' 
+            <div class="border-zinc-700 focus:outline-none"
+                id="username"
+                hx-post="/change/username"
+                hx-trigger="click"
+                hx-target="#username"
+                hx-swap="outerHTML">Username: {{ data.username }}</div>
+        '''
+        return render_template_string(HEAD + page, data=repo)
+    else:
+        return '<div>nothing...</div>'
 
 @app.route('/')
 def index():
@@ -92,22 +107,19 @@ def index():
        <!-- html -->
         <body>
             <div>
-              <p>Elements to change</p>
-              <p id="change">Element to change</p>
-              <p id="other">Changing the other</p>
+              <div class="border-zinc-700 focus:outline-none"
+                   id="username"
+                   hx-post="/change/username"
+                   hx-trigger="click"
+                   hx-target="#username"
+                   hx-swap="outerHTML">Username: {{ data.username }}</div>
 
-              <button class="rounded-md mt-2 border-2 border-zinc-700 p-2 focus:outline-none"
-                      hx-get="/change"
-                      hx-trigger="click"
-                      hx-target="#other"
-                      hx-swap="outerHTML"> Change Data </button>
-
-              <div class="mt-2 border-zinc-700 p-2 focus:outline-none"
-                      hx-get="/change"
-                      hx-trigger="click"
-                      hx-target="#change"
-                      hx-swap="outerHTML"> Div Data </div>
-
+              <div class="border-zinc-700 focus:outline-none"
+                   id="password"
+                   hx-post="/change"
+                   hx-trigger="click"
+                   hx-target="#change"
+                   hx-swap="outerHTML">Password: {{ data.password }}</div>
             </div>
         </body>
        <!-- !html -->     
