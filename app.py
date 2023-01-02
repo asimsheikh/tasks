@@ -1,7 +1,9 @@
 from flask import Flask, request, render_template_string
 from persist import Persist
+from models import Task
 
-db = Persist()
+# db = Persist()
+db = [Task(name='Book flights to KL'), Task(name='Acquire Gym Membership')]
 app = Flask(__name__)
 
 HEAD = '''  
@@ -21,6 +23,15 @@ def api():
 @app.route('/')
 def index():
     DATA_PAGE = '''
-        <pre>{{data}}</pre>
+        <div class="w-1/2">
+            <pre class="w-1/2">{{data}}</pre>
+        </div>
     '''
-    return render_template_string(HEAD + DATA_PAGE, data={})
+    PAGE = '''
+            <div>
+                {%for task in data.tasks %}
+                {{ task.render() | safe }}
+                {% endfor%}
+            </div>
+    '''
+    return render_template_string(HEAD + '<body>' + DATA_PAGE + PAGE + '</body>', data={'tasks': db})
