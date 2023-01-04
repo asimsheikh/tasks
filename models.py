@@ -13,13 +13,13 @@ class Task(BaseModel):
         return f'''
              <div id="{self.id}" class="flex">
                 <div>
-                    <p class="text-lg font-semibold">Task</p>
                     <p>{self.name}</p>
                 </div>
-              <button class="ml-2 border-zinc-700 border-2 px-2 rounded-md"
+              <button class="ml-2 border-zinc-700 border-2 px-2 rounded-md hover:bg-neutral-900 hover:text-neutral-200"
                    hx-post="/api"
                    hx-trigger="click"
-                   hx-target="#{self.id}"
+                   hx-target="[id='{self.id}']"
+                   hx-vals='{{"id": "{self.id}" }}'
                    hx-swap="outerHTML">Edit</button>
               </div>
         '''
@@ -33,12 +33,14 @@ class Task(BaseModel):
             </div>
             <form class="m-2 flex flex-col" 
                   hx-post="/api"
-                  hx-target="#{self.id}"
+                  hx-target="[id='{self.id}']"
                   hx-swap="outerHTML">
                 <div class="flex flex-row">
                     <div class="flex flex-col border-2 rounded-md w-4/12 mx-2 p-2">
                         <label class="text-sm" for="task_name">Task Name</label>
                         <input type="text" value="{self.name}" name="task_name" id="task_name" autofocus onfocus="this.select()"/>
+                        <input type="hidden" id="action" name="action" value="update_task">
+                        <input type="hidden" id="id" name="id" value="{self.id}">
                     </div>
                 </div>
                     <div class="bg-black text-white px-4 m-2 py-2 w-1/12 rounded-md">
