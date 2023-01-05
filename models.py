@@ -19,7 +19,7 @@ class Task(BaseModel):
                    hx-post="/api"
                    hx-trigger="click"
                    hx-target="[id='{self.id}']"
-                   hx-vals='{{"id": "{self.id}" }}'
+                   hx-vals='{{"id": "{self.id}", "action": "edit_task" }}'
                    hx-swap="outerHTML">Edit</button>
               </div>
         '''
@@ -43,8 +43,8 @@ class Task(BaseModel):
                         <input type="hidden" id="id" name="id" value="{self.id}">
                     </div>
                 </div>
-                    <div class="bg-black text-white px-4 m-2 py-2 w-1/12 rounded-md">
-                        <input type="submit" value="Save" />
+                    <div>
+                        <input class="bg-black text-white px-4 m-2 py-2 w-1/12 rounded-md" type="submit" value="Save" />
                     </div>
              </form>
         </div>
