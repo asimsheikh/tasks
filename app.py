@@ -24,6 +24,7 @@ HEAD = '''
 @app.post('/api')
 def api():
     print(request.form)
+    global db
     if  request.form.get('action') == 'edit_task':
         task_id = request.form['id']
         task = [task for task in db if task.id == task_id][0]
@@ -63,6 +64,10 @@ def api():
             </div>
         '''
         return render_template_string(form, data={'tasks': db})
+    elif request.form.get('action') == 'delete_task':
+        task_id = request.form['id']        
+        db = [ task for task in db if task.id != task_id]
+        return ''
     else:
         raise TypeError
 

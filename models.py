@@ -21,6 +21,12 @@ class Task(BaseModel):
                    hx-target="[id='{self.id}']"
                    hx-vals='{{"id": "{self.id}", "action": "edit_task" }}'
                    hx-swap="outerHTML">Edit</button>
+              <button class="ml-2 border-zinc-700 border-2 px-2 rounded-md hover:bg-neutral-900 hover:text-neutral-200"
+                   hx-post="/api"
+                   hx-trigger="click"
+                   hx-target="[id='{self.id}']"
+                   hx-vals='{{"id": "{self.id}", "action": "delete_task" }}'
+                   hx-swap="outerHTML">Delete</button>
               </div>
         '''
     
